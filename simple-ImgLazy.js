@@ -1,10 +1,5 @@
-/**
- * simple img lazy loading
- * @author  Go7hic
- * @param  {[type]} window [description]
- * @return {[type]}        [description]
- */
-;function(window){
+;(function(window){
+    'use strict';
     var imgDom = function(dom, res) {
         if (document.querySelectorAll) {
             res = document.querySelectorAll(dom);
@@ -21,11 +16,7 @@
         return res;
     },
     addEventListener = function(evt, fn) {
-        window.addEventListener
-        ? this.addEventListener(evt, fn, false)
-        : (window.attachEvent)
-        ? this.attachEvent('on' + evt, fn)
-        : this['on' + evt] = fn;
+        window.addEventListener ? this.addEventListener(evt, fn, false) : (window.attachEvent) ? this.attachEvent('on' + evt, fn) : this['on' + evt] = fn;
     },
     _has = function(obj, key) {
         return Object.prototype.hasOwnProperty.call(obj, key);
@@ -35,25 +26,25 @@
         var img = new Image(),
             src = el.getAttribute('data-src');
         img.onload = function() {
-            if (!! el.parent)
-                el.parent.replaceChild(img, el)
-            else
+            if (!! el.parent) {
+                el.parent.replaceChild(img, el);
+            } else {
                 el.src = src;
+            }
 
-            fn? fn() : null;
-        }
+
+            fn ? fn() : null;
+        };
         img.src = src;
     }
 
     function elementInViewport(el) {
         var rect = el.getBoundingClientRect();
         return (
-         rect.top    >= 0
-         && rect.left   >= 0
-         && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
-        )
+            rect.top    >= 0 && rect.left   >= 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
+        );
     }
-    var images = new Array(),
+    var images = [],
         query = imgDom('.imglazy'),
         processScroll = function(){
             for (var i = 0; i < images.length; i++) {
@@ -62,12 +53,12 @@
                     images.splice(i, i);
                 });
             }
-        };
+        }
     };
     for (var i = 0; i < query.length; i++) {
         images.push(query[i]);
-    };
+    }
 
     processScroll();
     addEventListener('scroll',processScroll);
-}(this);
+})(this);
