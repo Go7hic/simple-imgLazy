@@ -45,18 +45,18 @@
       rect.top >= 0 && rect.left >= 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
     );
   }
-  var images = [],
-    query = imgDom('.imglazy'),
-    processScroll = function () {
-      for (var i = 0; i < images.length; i++) {
-        if (elementInViewport(images[i])) {
-          loadImage(images[i], function () {
-            images.splice(i, i);
-          });
-        }
+  let images = [];
+  const query = imgDom('.imglazy');
+  const processScroll = function () {
+    for (var i = 0; i < images.length; i++) {
+      if (elementInViewport(images[i])) {
+        loadImage(images[i], function () {
+          images.splice(i, i);
+        });
       }
-    };
-  for (var i = 0; i < query.length; i++) {
+    }
+  };
+  for (let i = 0; i < query.length; i++) {
     images.push(query[i]);
   }
 
